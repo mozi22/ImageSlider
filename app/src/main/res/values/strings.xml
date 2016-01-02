@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">display</string>
+    <string name="preview_button">Go To Preview</string>
 </resources>

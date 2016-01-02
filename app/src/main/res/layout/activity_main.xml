@@ -3,10 +3,27 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:src="@drawable/preview"/>-->
+
+    <android.support.v17.leanback.widget.HorizontalGridView
+        android:layout_width="wrap_content"
+        android:layout_height="430dp"
+        android:id="@+id/main_grd_uploader"
+        android:layout_centerInParent="true"
+        />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/preview"/>
+        android:id="@+id/main_btn_preview"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:text="@string/preview_button"/>
+
 
 </RelativeLayout>
