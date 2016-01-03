@@ -3,8 +3,11 @@ package main.com.display.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,10 +55,44 @@ public class GridElementAdapter extends RecyclerView.Adapter<GridElementAdapter.
         holder.preview.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                activity.startActivityForResult(galleryIntent, covers.get(position).getId());
+//                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//                photoPickerIntent.setType("image/*");
+//                activity.startActivityForResult(photoPickerIntent, covers.get(position).getId());
+                  getCameraImages(context);
+//                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                activity.startActivityForResult(galleryIntent, covers.get(position).getId());
             }
         });
+    }
+
+    public ArrayList<String> getCameraImages(Context context) {
+
+        // Set up an array of the Thumbnail Image ID column we want
+        String[] projection = {MediaStore.Images.Media.DATA};
+
+
+        final Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+
+        ArrayList<String> result = new ArrayList<String>(cursor.getCount());
+
+        Log.i("cursor.getCount()) :", cursor.getCount() + "");
+
+        if (cursor.moveToFirst()) {
+            final int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            do {
+                final String data = cursor.getString(dataColumn);
+                Log.i("data :", data);
+                result.add(data);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return result;
+
     }
 
     @Override
