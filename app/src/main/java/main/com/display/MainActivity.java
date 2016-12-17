@@ -7,12 +7,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v17.leanback.widget.HorizontalGridView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -34,6 +37,7 @@ public class MainActivity extends Activity {
     private ArrayList<Covers> covers;
     private Button main_btn_preview;
     private GridElementAdapter adapter;
+    private int IMAGE_ID = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,15 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             if(v == main_btn_preview){
-                startActivity(new Intent(getApplicationContext(), PreviewActivity.class));
+
+                Parcelable coversParcel = Parcels.wrap(MainActivity.this.covers);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("covers",coversParcel);
+
+                Intent i = new Intent(getApplicationContext(), PreviewActivity.class);
+                i.putExtras(bundle);
+
+                startActivity(i);
             }
         }
     };
@@ -91,8 +103,14 @@ public class MainActivity extends Activity {
 //                        .decodeFile(imgDecodableString));
 
 
-                adapter.NewImageSelected(BitmapFactory.decodeFile(imgDecodableString), requestCode);
+                Bitmap b = BitmapFactory.decodeFile(imgDecodableString);
+                this.covers.add(new Covers(Bitmap.createScaledBitmap(b,120,120,false),IMAGE_ID));
+                this.IMAGE_ID++;
+
+
+                adapter.NewImageSelected(b, requestCode);
                 adapter.notifyDataSetChanged();
+
             } else {
                 Toast.makeText(this, "You haven't picked Image",
                         Toast.LENGTH_LONG).show();

@@ -2,14 +2,19 @@ package main.com.display.models;
 
 import android.graphics.Bitmap;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
 /**
  * Created by Muazzam on 1/2/2016.
  */
+@Parcel
 public class Covers {
 
     private Bitmap image;
     private int id;
 
+    @ParcelConstructor
     public Covers(Bitmap image,int id){
 
         this.image = image;

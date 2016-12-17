@@ -1,6 +1,9 @@
 package main.com.display;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -10,6 +13,14 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import org.parceler.Parcels;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import main.com.display.models.Covers;
 
 /**
  * Created by Muazzam on 1/2/2016.
@@ -25,16 +36,24 @@ public class PreviewActivity extends Activity {
 
         background = (LinearLayout) findViewById(R.id.preview_layout_preview);
 
-        ImageView demoImage = (ImageView) findViewById(R.id.preview_img_preview);
-        int imagesToShow[] = { R.drawable.forest, R.drawable.beed,R.drawable.paper};
+        List<Covers> covers = Parcels.unwrap(getIntent().getParcelableExtra("covers"));
 
-        animate(demoImage, imagesToShow, 0,true);
+
+        ImageView demoImage = (ImageView) findViewById(R.id.preview_img_preview);
+//        int imagesToShow[] = { R.drawable.forest, R.drawable.beed,R.drawable.paper};
+
+//        ArrayList<Integer> imagesToShow = new ArrayList<Integer>();
+
+
+        animate(demoImage, covers, 0,true);
+
+
 
     }
 
 
 
-    private void animate(final ImageView imageView, final int images[], final int imageIndex, final boolean forever) {
+    private void animate(final ImageView imageView, final List<Covers> images, final int imageIndex, final boolean forever) {
 
         //imageView <-- The View which displays the images
         //images[] <-- Holds R references to the images to display
@@ -42,11 +61,11 @@ public class PreviewActivity extends Activity {
         //forever <-- If equals true then after the last image it starts all over again with the first image resulting in an infinite loop. You have been warned.
 
         int fadeInDuration = 500; // Configure time values here
-        int timeBetween = 8000;
+        int timeBetween = 4000;
         int fadeOutDuration = 1000;
 
         imageView.setVisibility(View.INVISIBLE);    //Visible or invisible by default - this will apply when the animation ends
-        imageView.setImageResource(images[imageIndex]);
+        imageView.setImageBitmap(images.get(imageIndex).getCover());
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); // add this
@@ -65,7 +84,7 @@ public class PreviewActivity extends Activity {
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             public void onAnimationEnd(Animation animation) {
-                if (images.length - 1 > imageIndex) {
+                if (images.size() - 1 > imageIndex) {
                     animate(imageView, images, imageIndex + 1,forever); //Calls itself until it gets to the end of the array
                 }
                 else {
