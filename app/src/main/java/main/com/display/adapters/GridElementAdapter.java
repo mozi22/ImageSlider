@@ -55,10 +55,10 @@ public class GridElementAdapter extends RecyclerView.Adapter<GridElementAdapter.
         holder.preview.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-//                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//                photoPickerIntent.setType("image/*");
-//                activity.startActivityForResult(photoPickerIntent, covers.get(position).getId());
-                  getCameraImages(context);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                activity.startActivityForResult(photoPickerIntent, covers.get(position).getId());
+//                  getCameraImages(context);
 //                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                activity.startActivityForResult(galleryIntent, covers.get(position).getId());
             }
