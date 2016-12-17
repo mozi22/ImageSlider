@@ -63,9 +63,8 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             if(v == main_btn_preview){
 
-                Parcelable coversParcel = Parcels.wrap(MainActivity.this.covers);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("covers",coversParcel);
+                bundle.putParcelable("covers", Parcels.wrap(MainActivity.this.covers));
 
                 Intent i = new Intent(getApplicationContext(), PreviewActivity.class);
                 i.putExtras(bundle);

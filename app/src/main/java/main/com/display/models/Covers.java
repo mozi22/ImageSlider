@@ -1,6 +1,7 @@
 package main.com.display.models;
 
 import android.graphics.Bitmap;
+import android.os.Parcelable;
 
 import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
